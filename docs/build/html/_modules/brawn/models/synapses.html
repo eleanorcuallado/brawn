@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>brawn.models.synapses &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/index.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>brawn.models.synapses</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for brawn.models.synapses</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module regrouping all Synapse set models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">brian2</span> <span class="k">import</span> <span class="n">Synapses</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">mV</span>
+<span class="kn">from</span> <span class="nn">brawn.parameters</span> <span class="k">import</span> <span class="n">tau_LTP</span><span class="p">,</span> <span class="n">tau_LTD</span><span class="p">,</span> <span class="n">ALTP</span><span class="p">,</span> <span class="n">ALTD</span><span class="p">,</span> <span class="n">aLTP</span><span class="p">,</span> <span class="n">aLTD</span><span class="p">,</span> <span class="n">w_max</span>
+
+
+<div class="viewcode-block" id="SimpleSynapses"><a class="viewcode-back" href="../../../models/synapses/SimpleSynapses.html#brawn.models.synapses.SimpleSynapses">[docs]</a><span class="k">class</span> <span class="nc">SimpleSynapses</span><span class="p">(</span><span class="n">Synapses</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple pr-connecited synapses increasing current by 70 mV for each spike</span>
+<span class="sd">    received.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    namespace : dict</span>
+<span class="sd">        Namespace of variables defining the Synapses.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Input `NeuronGroup`.</span>
+<span class="sd">    output_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Output `NeuronGroup`.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of the synapse group.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;v_incr&#39;</span><span class="p">:</span> <span class="mi">70</span> <span class="o">*</span> <span class="n">mV</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ng</span><span class="p">,</span> <span class="n">output_ng</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;synapses&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">input_ng</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">output_ng</span><span class="p">,</span>
+                         <span class="n">on_pre</span><span class="o">=</span><span class="s1">&#39;v_post += v_incr&#39;</span><span class="p">,</span>
+                         <span class="n">namespace</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BasicSTDPSynapses"><a class="viewcode-back" href="../../../models/synapses/BasicSTDPSynapses.html#brawn.models.synapses.BasicSTDPSynapses">[docs]</a><span class="k">class</span> <span class="nc">BasicSTDPSynapses</span><span class="p">(</span><span class="n">Synapses</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pre-connected synapses following basic STDP behavior, with randomized</span>
+<span class="sd">    initial weight.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    equations : str</span>
+<span class="sd">        Equations defining the evolution of the synapses.</span>
+<span class="sd">    on_pre_eqs : str</span>
+<span class="sd">        Equations defining the behavior on presynaptic spikes.</span>
+<span class="sd">    on_post_eqs : str</span>
+<span class="sd">        Equations defining the behavior on postsynaptic spikes.</span>
+<span class="sd">    namespace : dict</span>
+<span class="sd">        Namespace of the variables defining the synapses.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Input `NeuronGroup`.</span>
+<span class="sd">    output_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Output `NeuronGroup`.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of the synapse group.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        w : 1</span>
+<span class="s2">        dApre/dt = -Apre / taupre : 1 (event-driven)</span>
+<span class="s2">        dApost/dt = -Apost / taupost : 1 (event-driven)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">on_pre_eqs</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;v += w / radian * mV</span>
+<span class="s2">        Apre += rApre</span>
+<span class="s2">        w = clip(w + Apost, 0, gmax)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">on_post_eqs</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Apost += rApost</span>
+<span class="s2">        w = clip(w + Apre, 0, gmax)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;taupre&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span>
+        <span class="s1">&#39;gmax&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">05</span><span class="p">,</span>
+        <span class="s1">&#39;rApre&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">01</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ng</span><span class="p">,</span> <span class="n">output_ng</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;synapses&#39;</span><span class="p">):</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span>
+        <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;taupost&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;taupre&#39;</span><span class="p">]</span>
+        <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;rApost&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;rApre&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;taupre&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;taupost&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.05</span>
+        <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;rApost&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;gmax&#39;</span><span class="p">]</span>
+        <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;rApre&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">ns</span><span class="p">[</span><span class="s1">&#39;gmax&#39;</span><span class="p">]</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">input_ng</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">output_ng</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">ns</span><span class="p">,</span>
+                         <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">equations</span><span class="p">,</span> <span class="n">on_pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_pre_eqs</span><span class="p">,</span>
+                         <span class="n">on_post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_post_eqs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="s1">&#39;rand() * gmax&#39;</span></div>
+
+
+<div class="viewcode-block" id="ZengSTDPSynapses"><a class="viewcode-back" href="../../../models/synapses/ZengSTDPSynapses.html#brawn.models.synapses.ZengSTDPSynapses">[docs]</a><span class="k">class</span> <span class="nc">ZengSTDPSynapses</span><span class="p">(</span><span class="n">Synapses</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pre-connected synapses following a custom STDP protocol as described by</span>
+<span class="sd">    Yuan Zeng (et al.) for SNN supervised learning, with randomized initial</span>
+<span class="sd">    weight.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    equations : str</span>
+<span class="sd">        Equations defining the evolution of the synapses.</span>
+<span class="sd">    on_pre_eqs : str</span>
+<span class="sd">        Equations defining the behavior on presynaptic spikes.</span>
+<span class="sd">    on_post_eqs : str</span>
+<span class="sd">        Equations defining the behavior on postsynaptic spikes.</span>
+<span class="sd">    namespace : dict</span>
+<span class="sd">        Namespace of the variables defining the synapses.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Input `NeuronGroup`.</span>
+<span class="sd">    output_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Output `NeuronGroup`.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of the synapse group.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Custom STDP parameters</span>
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;tau_LTP&#39;</span><span class="p">:</span> <span class="n">tau_LTP</span><span class="p">,</span>  <span class="c1"># Amplitude of decay of Potentiation learning</span>
+        <span class="s1">&#39;tau_LTD&#39;</span><span class="p">:</span> <span class="n">tau_LTD</span><span class="p">,</span>  <span class="c1"># Amplitude of decay of Depression learning</span>
+        <span class="s1">&#39;ALTP&#39;</span><span class="p">:</span> <span class="n">ALTP</span><span class="p">,</span>  <span class="c1"># Amplitude of trace upating for potentiation</span>
+        <span class="s1">&#39;ALTD&#39;</span><span class="p">:</span> <span class="n">ALTD</span><span class="p">,</span>  <span class="c1"># Amplitude of trace updating for depression</span>
+        <span class="s1">&#39;aLTP&#39;</span><span class="p">:</span> <span class="n">aLTP</span><span class="p">,</span>  <span class="c1"># Potentiation learning rate</span>
+        <span class="s1">&#39;aLTD&#39;</span><span class="p">:</span> <span class="n">aLTD</span><span class="p">,</span>  <span class="c1"># Depression learning rate</span>
+        <span class="s1">&#39;w_max&#39;</span><span class="p">:</span> <span class="n">w_max</span>   <span class="c1"># Max weight</span>
+    <span class="p">}</span>
+
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        t_prs : second   # Last registered presynaptic spike</span>
+<span class="s2">        t_pos : second  # Last registered postsynaptic spike</span>
+<span class="s2">        P : 1</span>
+<span class="s2">        Q : 1</span>
+<span class="s2">        w : 1</span>
+<span class="s2">        val_pot : 1</span>
+<span class="s2">        val_dep : 1</span>
+<span class="s2">        applicable : 1</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">on_pre_eqs</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        I_m = I_m + w*amp/metre**2</span>
+<span class="s2">        t_prs = int(t_prs &lt; 0*ms) * t + int(t_prs &gt;= 0*ms) * t_prs</span>
+<span class="s2">        P = P * exp((t_prs - t)/tau_LTP) + ALTP</span>
+<span class="s2">        t_prs = t</span>
+<span class="s2">        applicable = int(0*ms &lt;= t_pos and t_pos &lt; t) # Here t is a t_prs</span>
+<span class="s2">        val_dep = applicable * aLTD * Q * exp((t_pos - t)/tau_LTD)</span>
+<span class="s2">        w = clip(w + val_dep, 0, w_max)</span>
+
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">on_post_eqs</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        t_pos = int(t_pos &lt; 0*ms) * t + int(t_pos &gt;= 0*ms) * t_pos</span>
+<span class="s2">        Q = Q * exp((t_pos - t)/tau_LTD) + ALTD</span>
+<span class="s2">        t_pos = t</span>
+<span class="s2">        applicable = int(0*ms &lt;= t_prs and t_prs &lt; t) # Here t is a t_post</span>
+<span class="s2">        val_pot = applicable * aLTP * P * exp((t_prs - t)/tau_LTP)</span>
+<span class="s2">        w = clip(w + val_pot, 0, w_max)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ng</span><span class="p">,</span> <span class="n">output_ng</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;synapses&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">input_ng</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">output_ng</span><span class="p">,</span>
+                         <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">equations</span><span class="p">,</span> <span class="n">on_pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_pre_eqs</span><span class="p">,</span>
+                         <span class="n">on_post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_post_eqs</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">,</span>
+                         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_prs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">ms</span>   <span class="c1"># If negative, no spike happened yet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_pos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">ms</span>  <span class="c1"># If negative, no spike happened yet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="s1">&#39;rand() * w_max&#39;</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do not run models directly!&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

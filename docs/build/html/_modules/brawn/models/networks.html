@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>brawn.models.networks &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/index.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>brawn.models.networks</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for brawn.models.networks</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module regrouping all Network models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">brian2</span> <span class="k">import</span> <span class="p">(</span><span class="n">Network</span><span class="p">,</span> <span class="n">StateMonitor</span><span class="p">,</span> <span class="n">SpikeMonitor</span><span class="p">,</span> <span class="n">EventMonitor</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span>
+                    <span class="n">pause</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">legend</span><span class="p">,</span>
+                    <span class="n">scatter</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">brawn.tools.data</span> <span class="k">import</span> <span class="n">count_spikes</span>
+
+
+<div class="viewcode-block" id="IONetwork"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork">[docs]</a><span class="k">class</span> <span class="nc">IONetwork</span><span class="p">(</span><span class="n">Network</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Two-layer network with an input NeuronGroup and an output `NeuronGroup`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Input `NeuronGroup`.</span>
+<span class="sd">    output_ng : `brian2.NeuronGroup`</span>
+<span class="sd">        Output `NeuronGroup`.</span>
+<span class="sd">    Connector : `brian2.Synapses`</span>
+<span class="sd">        Synapses class.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Created ``Connector`` object is named &#39;synapses&#39;.</span>
+
+<span class="sd">    `IONetwork` created names begin with &#39;__&#39;; do not name `BrianObject`&#39;s</span>
+<span class="sd">    with this notation to prevent the network from modifying your</span>
+<span class="sd">    objects without your knowledge.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : `brian2.NeuronGroup`</span>
+<span class="sd">        Input `NeuronGroup`.</span>
+<span class="sd">    output : `brian2.NeuronGroup`</span>
+<span class="sd">        Output `NeuronGroup`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_state_monitors</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">_event_monitors</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ng</span><span class="p">,</span> <span class="n">output_ng</span><span class="p">,</span> <span class="n">Connector</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">input_ng</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output_ng</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,</span>
+                         <span class="n">Connector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;synapses&#39;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="IONetwork.run"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">record_output_spikes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs the network for a given amount of time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        duration : `brian2.Quantity`</span>
+<span class="sd">            Amount of time to run the network for.</span>
+<span class="sd">        record_output_spikes : bool, optional</span>
+<span class="sd">            Whether output spikes should be recorded.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : list or None</span>
+<span class="sd">            Spikes recorded if recording spikes, or None if not asked for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">record_output_spikes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">monitor_spikes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;__run_rec&#39;</span><span class="p">)</span>
+
+        <span class="n">sim_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">record_output_spikes</span><span class="p">:</span>
+            <span class="n">trains</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;__run_rec&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">spike_trains</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;__run_rec&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">count_spikes</span><span class="p">(</span><span class="n">trains</span><span class="p">,</span> <span class="n">sim_start</span><span class="p">,</span>
+                                <span class="n">sim_start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="IONetwork.monitor_state"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork.monitor_state">[docs]</a>    <span class="k">def</span> <span class="nf">monitor_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a `StateMonitor` to the network.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : str</span>
+<span class="sd">            Name of network object to monitor.</span>
+<span class="sd">        var : str</span>
+<span class="sd">            Variable to monitor.</span>
+<span class="sd">        record : bool or list of int, optional</span>
+<span class="sd">            IDs to monitor. Records everything if True.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of monitor. Defaults to &#39;``obj`` _ ``var`` _monitor&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mon_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_monitor&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">StateMonitor</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">obj</span><span class="p">],</span> <span class="n">var</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="n">record</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">mon_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_monitors</span><span class="p">[</span><span class="n">mon_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span></div>
+
+<div class="viewcode-block" id="IONetwork.monitor_event"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork.monitor_event">[docs]</a>    <span class="k">def</span> <span class="nf">monitor_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">evt</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds an `EventMonitor` to the network.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : str</span>
+<span class="sd">            Name of network oject to monitor.</span>
+<span class="sd">        evt : str</span>
+<span class="sd">            Event to monitor.</span>
+<span class="sd">        record : bool or list of int, optional</span>
+<span class="sd">            IDs to monitor. Records everything if True.</span>
+<span class="sd">        name str, optional</span>
+<span class="sd">            Name of monitor. Defaults to &#39;``obj`` _ ``evt`` _monitor&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mon_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_monitor&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">evt</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">EventMonitor</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">obj</span><span class="p">],</span> <span class="n">evt</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="n">record</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">mon_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_monitors</span><span class="p">[</span><span class="n">mon_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">evt</span></div>
+
+<div class="viewcode-block" id="IONetwork.monitor_spikes"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork.monitor_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">monitor_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a `SpikeMonitor` to the network.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : str</span>
+<span class="sd">            Name of the object whose spikes to monitor.</span>
+<span class="sd">        record : bool, optional</span>
+<span class="sd">            IDs to monitor. Record everything if True.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of monitor. Takes on &#39;``obj`` _spike_monitor&#39; if not</span>
+<span class="sd">            specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mon_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_spike_monitor&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">SpikeMonitor</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">obj</span><span class="p">],</span> <span class="n">record</span><span class="o">=</span><span class="n">record</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">mon_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_monitors</span><span class="p">[</span><span class="n">mon_name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;spike&#39;</span></div>
+
+<div class="viewcode-block" id="IONetwork.show_state_monitor"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork.show_state_monitor">[docs]</a>    <span class="k">def</span> <span class="nf">show_state_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monitor</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">figure_title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Element </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">name_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+                           <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">use_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">is_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plots a line chart for a specific `StateMonitor`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        monitor : str</span>
+<span class="sd">            Name of the `StateMonitor`.</span>
+<span class="sd">        window : str, optional</span>
+<span class="sd">            Name of the window. Default value is ``monitor``.</span>
+<span class="sd">        figure_title : str, optional</span>
+<span class="sd">            Name of the figure.</span>
+<span class="sd">            Default value &#39;Evolution of ``variable`` over time&#39;.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of each set. `{}` is replaced by the set ID.</span>
+<span class="sd">        name_values list of str, optional</span>
+<span class="sd">            Values replacing the set IDs for ``name``.</span>
+<span class="sd">        linestyle : str, optional</span>
+<span class="sd">            Line style.</span>
+<span class="sd">        xlab : str, optional</span>
+<span class="sd">            X-axis label.</span>
+<span class="sd">        ylab : str, optional</span>
+<span class="sd">            Y-axis label. Default value is &#39;``variable`` (`dimension`)&#39;.</span>
+<span class="sd">        use_grid : bool, optional</span>
+<span class="sd">            Is the grid activated?</span>
+
+<span class="sd">        Warnings</span>
+<span class="sd">        --------</span>
+<span class="sd">        `dimension` of Volt is &quot;m^2 kg s^-3 A^-1&quot;!</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_monitors</span><span class="p">[</span><span class="n">monitor</span><span class="p">]</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">monitor</span><span class="p">],</span> <span class="n">var</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dim</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">dim</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+        <span class="k">if</span> <span class="n">is_figure</span><span class="p">:</span>
+            <span class="n">figure</span><span class="p">(</span><span class="n">monitor</span> <span class="k">if</span> <span class="n">window</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">window</span><span class="p">)</span>
+            <span class="n">title</span><span class="p">(</span><span class="s1">&#39;Evolution of </span><span class="si">{}</span><span class="s1"> over time&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                  <span class="k">if</span> <span class="n">figure_title</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">figure_title</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">monitor</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="o">/</span><span class="n">ms</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="k">if</span> <span class="n">name_values</span> <span class="ow">is</span> <span class="kc">None</span>
+                                    <span class="k">else</span> <span class="n">name_values</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">)</span>
+        <span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span> <span class="k">if</span> <span class="n">ylab</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">ylab</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_grid</span><span class="p">:</span>
+            <span class="n">grid</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">legend</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="IONetwork.show_event_monitor"><a class="viewcode-back" href="../../../models/networks/IONetwork.html#brawn.models.networks.IONetwork.show_event_monitor">[docs]</a>    <span class="k">def</span> <span class="nf">show_event_monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monitor</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">figure_title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                           <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;Neuron Index&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+                           <span class="n">use_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plots a cloud chart for a specific `EventMonitor`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        monitor : str</span>
+<span class="sd">            Name of the `EventMonitor`.</span>
+<span class="sd">        window : str, optional</span>
+<span class="sd">            Name of the window. Defaults to ``monitor``.</span>
+<span class="sd">        figure_title : str, optional</span>
+<span class="sd">            Name of the figure.</span>
+<span class="sd">            Defaults to &#39;Firing of ``event`` events during simulation&#39;.</span>
+<span class="sd">        ylab : str, optional</span>
+<span class="sd">            Y-axis label.</span>
+<span class="sd">        xlab : str, optional</span>
+<span class="sd">            X-axis label.</span>
+<span class="sd">        marker : str, optional</span>
+<span class="sd">            Marker style.</span>
+<span class="sd">        use_grid : bool, optional</span>
+<span class="sd">            Is the grid activated?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">is_figure</span><span class="p">:</span>
+            <span class="n">figure</span><span class="p">(</span><span class="n">monitor</span> <span class="k">if</span> <span class="n">window</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">window</span><span class="p">)</span>
+            <span class="n">title</span><span class="p">(</span><span class="s1">&#39;Firing of </span><span class="si">{}</span><span class="s1"> events during simulation&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_event_monitors</span><span class="p">[</span><span class="n">monitor</span><span class="p">])</span>
+                  <span class="k">if</span> <span class="n">figure_title</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">figure_title</span><span class="p">)</span>
+        <span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">monitor</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="o">/</span><span class="n">ms</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">monitor</span><span class="p">]</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">)</span>
+        <span class="n">xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">)</span>
+        <span class="n">ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_grid</span><span class="p">:</span>
+            <span class="n">grid</span><span class="p">()</span>
+
+        <span class="n">pause</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do not run models directly!&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

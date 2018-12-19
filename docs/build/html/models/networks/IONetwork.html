@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IONetwork Class &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Neurons" href="../neurons/index.html" />
+    <link rel="prev" title="Networks" href="index.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Models</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Networks</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">IONetwork Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../neurons/index.html">Neurons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../synapses/index.html">Synapses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trainers/index.html">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Models</a> &raquo;</li>
+        
+          <li><a href="index.html">Networks</a> &raquo;</li>
+        
+      <li>IONetwork Class</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/models/networks/IONetwork.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ionetwork-class">
+<h1>IONetwork Class<a class="headerlink" href="#ionetwork-class" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="brawn.models.networks.IONetwork">
+<em class="property">class </em><code class="descclassname">brawn.models.networks.</code><code class="descname">IONetwork</code><span class="sig-paren">(</span><em>input_ng</em>, <em>output_ng</em>, <em>Connector</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">brian2.core.network.Network</span></code></p>
+<p>Two-layer network with an input NeuronGroup and an output <cite>NeuronGroup</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>input_ng</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>brian2.NeuronGroup</cite></span></dt>
+<dd><p class="first last">Input <cite>NeuronGroup</cite>.</p>
+</dd>
+<dt><strong>output_ng</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>brian2.NeuronGroup</cite></span></dt>
+<dd><p class="first last">Output <cite>NeuronGroup</cite>.</p>
+</dd>
+<dt><strong>Connector</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>brian2.Synapses</cite></span></dt>
+<dd><p class="first last">Synapses class.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Created <code class="docutils literal notranslate"><span class="pre">Connector</span></code> object is named ‘synapses’.</p>
+<p><cite>IONetwork</cite> created names begin with ‘__’; do not name <cite>BrianObject</cite>’s
+with this notation to prevent the network from modifying your
+objects without your knowledge.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>input</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>brian2.NeuronGroup</cite></span></dt>
+<dd><p class="first last">Input <cite>NeuronGroup</cite>.</p>
+</dd>
+<dt><strong>output</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>brian2.NeuronGroup</cite></span></dt>
+<dd><p class="first last">Output <cite>NeuronGroup</cite>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="brawn.models.networks.IONetwork.monitor_event">
+<code class="descname">monitor_event</code><span class="sig-paren">(</span><em>obj</em>, <em>evt</em>, <em>record=True</em>, <em>name=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork.monitor_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork.monitor_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an <cite>EventMonitor</cite> to the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>obj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of network oject to monitor.</p>
+</dd>
+<dt><strong>evt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Event to monitor.</p>
+</dd>
+<dt><strong>record</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool or list of int, optional</span></dt>
+<dd><p class="first last">IDs to monitor. Records everything if True.</p>
+</dd>
+<dt><strong>name str, optional</strong></dt>
+<dd><p class="first last">Name of monitor. Defaults to ‘<code class="docutils literal notranslate"><span class="pre">obj</span></code> _ <code class="docutils literal notranslate"><span class="pre">evt</span></code> _monitor’.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.networks.IONetwork.monitor_spikes">
+<code class="descname">monitor_spikes</code><span class="sig-paren">(</span><em>obj</em>, <em>record=True</em>, <em>name=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork.monitor_spikes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork.monitor_spikes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <cite>SpikeMonitor</cite> to the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>obj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the object whose spikes to monitor.</p>
+</dd>
+<dt><strong>record</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">IDs to monitor. Record everything if True.</p>
+</dd>
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of monitor. Takes on ‘<code class="docutils literal notranslate"><span class="pre">obj</span></code> _spike_monitor’ if not
+specified.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.networks.IONetwork.monitor_state">
+<code class="descname">monitor_state</code><span class="sig-paren">(</span><em>obj</em>, <em>var</em>, <em>record=True</em>, <em>name=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork.monitor_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork.monitor_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a <cite>StateMonitor</cite> to the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>obj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of network object to monitor.</p>
+</dd>
+<dt><strong>var</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Variable to monitor.</p>
+</dd>
+<dt><strong>record</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool or list of int, optional</span></dt>
+<dd><p class="first last">IDs to monitor. Records everything if True.</p>
+</dd>
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of monitor. Defaults to ‘<code class="docutils literal notranslate"><span class="pre">obj</span></code> _ <code class="docutils literal notranslate"><span class="pre">var</span></code> _monitor’.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.networks.IONetwork.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>duration</em>, <em>record_output_spikes=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the network for a given amount of time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>duration</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>brian2.Quantity</cite></span></dt>
+<dd><p class="first last">Amount of time to run the network for.</p>
+</dd>
+<dt><strong>record_output_spikes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Whether output spikes should be recorded.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>output</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or None</span></dt>
+<dd><p class="first last">Spikes recorded if recording spikes, or None if not asked for.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.networks.IONetwork.show_event_monitor">
+<code class="descname">show_event_monitor</code><span class="sig-paren">(</span><em>monitor</em>, <em>window=''</em>, <em>figure_title=''</em>, <em>xlab='Time (ms)'</em>, <em>ylab='Neuron Index'</em>, <em>marker='o'</em>, <em>use_grid=True</em>, <em>is_figure=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork.show_event_monitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork.show_event_monitor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a cloud chart for a specific <cite>EventMonitor</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>monitor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the <cite>EventMonitor</cite>.</p>
+</dd>
+<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of the window. Defaults to <code class="docutils literal notranslate"><span class="pre">monitor</span></code>.</p>
+</dd>
+<dt><strong>figure_title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of the figure.
+Defaults to ‘Firing of <code class="docutils literal notranslate"><span class="pre">event</span></code> events during simulation’.</p>
+</dd>
+<dt><strong>ylab</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Y-axis label.</p>
+</dd>
+<dt><strong>xlab</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">X-axis label.</p>
+</dd>
+<dt><strong>marker</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Marker style.</p>
+</dd>
+<dt><strong>use_grid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Is the grid activated?</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.networks.IONetwork.show_state_monitor">
+<code class="descname">show_state_monitor</code><span class="sig-paren">(</span><em>monitor</em>, <em>window=''</em>, <em>figure_title=''</em>, <em>name='Element {}'</em>, <em>name_values=None</em>, <em>linestyle='-'</em>, <em>xlab='Time (ms)'</em>, <em>ylab=''</em>, <em>use_grid=True</em>, <em>is_figure=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/networks.html#IONetwork.show_state_monitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.networks.IONetwork.show_state_monitor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a line chart for a specific <cite>StateMonitor</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>monitor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the <cite>StateMonitor</cite>.</p>
+</dd>
+<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of the window. Default value is <code class="docutils literal notranslate"><span class="pre">monitor</span></code>.</p>
+</dd>
+<dt><strong>figure_title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of the figure.
+Default value ‘Evolution of <code class="docutils literal notranslate"><span class="pre">variable</span></code> over time’.</p>
+</dd>
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of each set. <cite>{}</cite> is replaced by the set ID.</p>
+</dd>
+<dt><strong>name_values list of str, optional</strong></dt>
+<dd><p class="first last">Values replacing the set IDs for <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
+</dd>
+<dt><strong>linestyle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Line style.</p>
+</dd>
+<dt><strong>xlab</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">X-axis label.</p>
+</dd>
+<dt><strong>ylab</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Y-axis label. Default value is ‘<code class="docutils literal notranslate"><span class="pre">variable</span></code> (<cite>dimension</cite>)’.</p>
+</dd>
+<dt><strong>use_grid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Is the grid activated?</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><cite>dimension</cite> of Volt is “m^2 kg s^-3 A^-1”!</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../neurons/index.html" class="btn btn-neutral float-right" title="Neurons" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

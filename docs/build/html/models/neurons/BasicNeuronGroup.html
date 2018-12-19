@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BasicNeuronGroup class &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="HodgkinHuxelyNeuronGroup class" href="HodgkinHuxelyNeuronGroup.html" />
+    <link rel="prev" title="Prepable class" href="Prepable.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../networks/index.html">Networks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Neurons</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="NeuronPrep.html">NeuronPrep class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Prepable.html">Prepable class</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BasicNeuronGroup class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="HodgkinHuxelyNeuronGroup.html">HodgkinHuxelyNeuronGroup class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SpikingNeuronGroup.html">SpikingNeuronGroup class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../synapses/index.html">Synapses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trainers/index.html">Trainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Models</a> &raquo;</li>
+        
+          <li><a href="index.html">Neurons</a> &raquo;</li>
+        
+      <li>BasicNeuronGroup class</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/models/neurons/BasicNeuronGroup.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basicneurongroup-class">
+<span id="basic-neurongroup"></span><h1>BasicNeuronGroup class<a class="headerlink" href="#basicneurongroup-class" title="Permalink to this headline">¶</a></h1>
+<p>Inherits <a class="reference internal" href="Prepable.html#prepable"><span class="std std-ref">Prepable class</span></a>.</p>
+<dl class="class">
+<dt id="brawn.models.neurons.BasicNeuronGroup">
+<em class="property">class </em><code class="descclassname">brawn.models.neurons.</code><code class="descname">BasicNeuronGroup</code><span class="sig-paren">(</span><em>N</em>, <em>name='neurongroup'</em>, <em>namespace={}</em>, <em>equations=''</em>, <em>events={}</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/neurons.html#BasicNeuronGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.neurons.BasicNeuronGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Prepable.html#brawn.models.neurons.Prepable" title="brawn.models.neurons.Prepable"><code class="xref py py-class docutils literal notranslate"><span class="pre">brawn.models.neurons.Prepable</span></code></a></p>
+<p>Basic Leaky Integrate-and-Fire NeuronGroup.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>N</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of neurons.</p>
+</dd>
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name of the NeuronGroup.</p>
+</dd>
+<dt><strong>namespace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict, optional</span></dt>
+<dd><p class="first last">New namespace of the NeuronGroup.</p>
+</dd>
+<dt><strong>equations</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">New set of equations for the NeuronGroup.</p>
+</dd>
+<dt><strong>events</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict, optional</span></dt>
+<dd><p class="first last">Events of the NeuronGroup.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Make sure all variables are accounted for if you change the namespace or
+the equations!</p>
+</div>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="HodgkinHuxelyNeuronGroup.html" class="btn btn-neutral float-right" title="HodgkinHuxelyNeuronGroup class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Prepable.html" class="btn btn-neutral" title="Prepable class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

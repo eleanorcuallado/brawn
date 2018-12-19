@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Brawn &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Models" href="models/index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="models/index.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Brawn</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="brawn">
+<h1>Brawn<a class="headerlink" href="#brawn" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="a-simplified-use-of-brian2">
+<h2>A simplified use of Brian2<a class="headerlink" href="#a-simplified-use-of-brian2" title="Permalink to this headline">¶</a></h2>
+<p>Brian2 is a rather complex library with very powerful options, but it can seem
+a little overwhelming at the beginning, and though it may be simple to do for
+small things, its syntax means that the code can rapidly be pretty long
+syntaxically with very little high-level operations being done. Thankfully,
+<strong>brawn</strong> is here to do the heavylifting. The goal of this library is to
+simplify the use of the more common functions in Brian2 to make it syntaxically
+simpler to make higher-level operations clearer in the python code.</p>
+<p><strong>This library gives you the brain &amp; the brawn to manipulate Spiking Neural
+Networks!</strong></p>
+<p>The main part of the code is in the <cite>models</cite> module. This module contains the
+<strong>brawn</strong> models for neurons, synapses, networks and trainers. Those models are
+here to replace Brian2’s native elements of the same name.</p>
+<p>The <cite>tools</cite> module is a repository of packages with functions used throughout
+the project. Added to this is the <cite>parameters.py</cite> file, which is a set of
+variables that are used throughout the roject and that allow easy modification
+to the codebase. They tend to be problem specific, and it is recommended to add
+other potential reused variables to it, to allow easy modifications to those.</p>
+<p>Warning: It is recommended that you have already completed the <a class="reference external" href="https://brian2.readthedocs.io/en/stable/resources/tutorials/index.html">brian2
+tutorials</a> before reading this documentation!</p>
+<p>Note that this library is meant to be expanded! The best way to use it is to
+create new models that you may need in your project using the available tools.
+The project contains two examples - the <a class="reference internal" href="models/synapses/ZengSTDPSynapses.html#zeng-stdp-synapses"><span class="std std-ref">ZengSTDPSynapses class</span></a> and
+<a class="reference internal" href="models/trainers/ZengTrainer.html#zeng-trainer"><span class="std std-ref">ZengTrainer class</span></a> - that are problem-specific. These classes exist to give
+you an idea of how to use the library to create your own problem-specific
+classes.</p>
+<p>Don’t hesitate to contact me for questions or bugs by email:
+<a class="reference external" href="mailto:kevin&#46;cuallado&#37;&#52;&#48;gmail&#46;com">kevin<span>&#46;</span>cuallado<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models/index.html">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/networks/index.html">Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/networks/IONetwork.html">IONetwork Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/neurons/index.html">Neurons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/neurons/NeuronPrep.html">NeuronPrep class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models/neurons/Prepable.html">Prepable class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models/neurons/BasicNeuronGroup.html">BasicNeuronGroup class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models/neurons/HodgkinHuxelyNeuronGroup.html">HodgkinHuxelyNeuronGroup class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models/neurons/SpikingNeuronGroup.html">SpikingNeuronGroup class</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/synapses/index.html">Synapses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/synapses/SimpleSynapses.html">SimpleSynapses class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models/synapses/BasicSTDPSynapses.html">BasicSTDPSynapses class</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models/synapses/ZengSTDPSynapses.html">ZengSTDPSynapses class</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/trainers/index.html">Trainers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/trainers/ZengTrainer.html">ZengTrainer class</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tools/index.html">Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tools/data.html">Data Tools module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/image.html">Image Tools module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/math.html">Math Tools module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/mnist.html">MNIST Tools module</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="websocket.html">Websocket Server</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models/index.html" class="btn btn-neutral float-right" title="Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

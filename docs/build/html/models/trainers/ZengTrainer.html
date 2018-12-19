@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ZengTrainer class &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tools" href="../../tools/index.html" />
+    <link rel="prev" title="Trainers" href="index.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../networks/index.html">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../neurons/index.html">Neurons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../synapses/index.html">Synapses</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Trainers</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ZengTrainer class</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Models</a> &raquo;</li>
+        
+          <li><a href="index.html">Trainers</a> &raquo;</li>
+        
+      <li>ZengTrainer class</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/models/trainers/ZengTrainer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="zengtrainer-class">
+<span id="zeng-trainer"></span><h1>ZengTrainer class<a class="headerlink" href="#zengtrainer-class" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="brawn.models.trainers.ZengTrainer">
+<em class="property">class </em><code class="descclassname">brawn.models.trainers.</code><code class="descname">ZengTrainer</code><span class="sig-paren">(</span><em>OutputClass</em>, <em>SynapseClass</em>, <em>train_set</em>, <em>test_set</em>, <em>backup_mode=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/trainers.html#ZengTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.trainers.ZengTrainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object training SNNs according to the protocol by Zeng et al with no
+NetworkOperation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>OutputClass</strong> <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
+<dd><p class="first last">Class of the output NeuronGroup.</p>
+</dd>
+<dt><strong>SynapseClass</strong> <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
+<dd><p class="first last">Class of the Synapses linking in and out.</p>
+</dd>
+<dt><strong>train_set</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list if pixelmaps</span></dt>
+<dd><p class="first last">List of training images.</p>
+</dd>
+<dt><strong>test_set</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of pixelmaps</span></dt>
+<dd><p class="first last">List of testing images.</p>
+</dd>
+<dt><strong>backup_mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Set to True if regenerated from backup.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>train_set</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of pixelmaps</span></dt>
+<dd><p class="first last">Training images.</p>
+</dd>
+<dt><strong>test_set</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of pixelmaps</span></dt>
+<dd><p class="first last">Testing images.</p>
+</dd>
+<dt><strong>simulator</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>IONetwork</cite></span></dt>
+<dd><p class="first last">Network used.</p>
+</dd>
+<dt><strong>progress_results</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict, optional</span></dt>
+<dd><p class="first last">progress results if monitoring it.</p>
+</dd>
+<dt><strong>ws_name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Name on websocket server if activated.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="brawn.models.trainers.ZengTrainer.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/trainers.html#ZengTrainer.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.trainers.ZengTrainer.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove progress files.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="brawn.models.trainers.ZengTrainer.restore">
+<em class="property">classmethod </em><code class="descname">restore</code><span class="sig-paren">(</span><em>OutputClass</em>, <em>SynapseClass</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/trainers.html#ZengTrainer.restore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.trainers.ZengTrainer.restore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the current progress from <cite>runtime/</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.trainers.ZengTrainer.store">
+<code class="descname">store</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/trainers.html#ZengTrainer.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.trainers.ZengTrainer.store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the current progress to <cite>runtime/</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.trainers.ZengTrainer.test_network">
+<code class="descname">test_network</code><span class="sig-paren">(</span><em>dry_run=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/trainers.html#ZengTrainer.test_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.trainers.ZengTrainer.test_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests network capacity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>dry_run</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Whether to restore network after test.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>results</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first">image (list): Class of image tested.</p>
+<p>success (list): Whether it was successful or not.</p>
+<p>rate (float): Success rate of testing.</p>
+<p class="last">success_num (int): Number of successes.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="brawn.models.trainers.ZengTrainer.train">
+<code class="descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brawn/models/trainers.html#ZengTrainer.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#brawn.models.trainers.ZengTrainer.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a full training step on the network.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TrainerError</strong></dt>
+<dd><p class="first last">If there is an issue while reading the picture.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../tools/index.html" class="btn btn-neutral float-right" title="Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Trainers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

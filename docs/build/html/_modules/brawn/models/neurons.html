@@ -1,0 +1,611 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>brawn.models.neurons &mdash; brawn 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> brawn
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/index.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../websocket.html">Websocket Server</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">brawn</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>brawn.models.neurons</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for brawn.models.neurons</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module regrouping all Neuron Group models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">brian2</span> <span class="k">import</span> <span class="p">(</span><span class="n">Cylinder</span><span class="p">,</span> <span class="n">NeuronGroup</span><span class="p">,</span> <span class="n">SpatialNeuron</span><span class="p">,</span> <span class="n">SpikeGeneratorGroup</span><span class="p">,</span>
+                    <span class="n">amp</span><span class="p">,</span> <span class="n">cm</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">msiemens</span><span class="p">,</span> <span class="n">mV</span><span class="p">,</span> <span class="n">ohm</span><span class="p">,</span> <span class="n">uF</span><span class="p">,</span> <span class="n">um</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">brawn.parameters</span> <span class="k">import</span> <span class="n">v_rest</span><span class="p">,</span> <span class="n">v_threshold</span><span class="p">,</span> <span class="n">v_trigger</span>
+
+
+<div class="viewcode-block" id="NeuronPrep"><a class="viewcode-back" href="../../../models/neurons/NeuronPrep.html#brawn.models.neurons.NeuronPrep">[docs]</a><span class="k">class</span> <span class="nc">NeuronPrep</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NeuronGroup Preper managing the customization of Prepable objects.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Cls : class</span>
+<span class="sd">        Class of the NeuronGroup to customize.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    events : dict</span>
+<span class="sd">        Information about the events to create.</span>
+<span class="sd">    equations : str</span>
+<span class="sd">        Equations of the NeuronGroup to be created.</span>
+<span class="sd">    namespace : dict</span>
+<span class="sd">        Namespace of the NeuronGroup to be created.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To simplify the process, it is recommended to use ``Prepable.customize()``</span>
+<span class="sd">    to create a NeuronPrep and chain the customizations instead of manipulating</span>
+<span class="sd">    this object directly.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Prepable</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;definitions&#39;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s1">&#39;codes&#39;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s1">&#39;scheduling&#39;</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Cls</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neuron_class</span> <span class="o">=</span> <span class="n">Cls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equations</span> <span class="o">=</span> <span class="n">Cls</span><span class="o">.</span><span class="n">equations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="n">Cls</span><span class="o">.</span><span class="n">namespace</span>
+
+<div class="viewcode-block" id="NeuronPrep.with_event"><a class="viewcode-back" href="../../../models/neurons/NeuronPrep.html#brawn.models.neurons.NeuronPrep.with_event">[docs]</a>    <span class="k">def</span> <span class="nf">with_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds an event to the customized NeuronGroup.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of the event.</span>
+<span class="sd">        condition : str</span>
+<span class="sd">            Condition of the event firing.</span>
+<span class="sd">        code str, optional</span>
+<span class="sd">            Abstract code to be run when the event is fired.</span>
+<span class="sd">        when : str, optional</span>
+<span class="sd">            When should the event be fired.</span>
+<span class="sd">        order : str, optional</span>
+<span class="sd">            What order should the event be fired.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : `NeuronPrep`</span>
+<span class="sd">            Updated NeuronGroup customizer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;definitions&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cond</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;codes&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">code</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;scheduling&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">when</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;scheduling&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;when&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">when</span>
+
+        <span class="k">if</span> <span class="n">order</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;scheduling&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;scheduling&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">==</span> <span class="p">{}:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;scheduling&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="NeuronPrep.with_constant"><a class="viewcode-back" href="../../../models/neurons/NeuronPrep.html#brawn.models.neurons.NeuronPrep.with_constant">[docs]</a>    <span class="k">def</span> <span class="nf">with_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a constant to the namespace of the NeuronGroup.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of the constant.</span>
+<span class="sd">        value : `brian2.Quantity`</span>
+<span class="sd">            Value of the constant.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : `NeuronPrep`</span>
+<span class="sd">            Updated NeuronGroup preper.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="NeuronPrep.with_variable"><a class="viewcode-back" href="../../../models/neurons/NeuronPrep.html#brawn.models.neurons.NeuronPrep.with_variable">[docs]</a>    <span class="k">def</span> <span class="nf">with_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a variable to the equations of the NeuronGroup.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Mathematical definition of the variable.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : `NeuronPrep`</span>
+<span class="sd">            Updated NeuronGroup preper.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equations</span> <span class="o">+=</span> <span class="n">value</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="NeuronPrep.create"><a class="viewcode-back" href="../../../models/neurons/NeuronPrep.html#brawn.models.neurons.NeuronPrep.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the Prepable NeuronGroup using the given parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : ``Cls``</span>
+<span class="sd">            NeuronGroup of the class given to the constructor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;events&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;definitions&#39;</span><span class="p">]</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;namespace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;equations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equations</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_class</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;codes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">run_on_event</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="s1">&#39;scheduling&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s1">&#39;when&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">set_event_schedule</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;when&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">set_event_schedule</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">res</span></div></div>
+
+
+<div class="viewcode-block" id="Prepable"><a class="viewcode-back" href="../../../models/neurons/Prepable.html#brawn.models.neurons.Prepable">[docs]</a><span class="k">class</span> <span class="nc">Prepable</span><span class="p">(</span><span class="n">NeuronGroup</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class for the use of NeuronPrep.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    namespace : dict</span>
+<span class="sd">        NeuronGroup namespace.</span>
+<span class="sd">    equations : str</span>
+<span class="sd">        NeuronGroup mathematical model.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NeuronPrep</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Prepable.customize"><a class="viewcode-back" href="../../../models/neurons/Prepable.html#brawn.models.neurons.Prepable.customize">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">customize</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a NeuronPrep for the current class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">NeuronPrep</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BasicNeuronGroup"><a class="viewcode-back" href="../../../models/neurons/BasicNeuronGroup.html#brawn.models.neurons.BasicNeuronGroup">[docs]</a><span class="k">class</span> <span class="nc">BasicNeuronGroup</span><span class="p">(</span><span class="n">Prepable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic Leaky Integrate-and-Fire NeuronGroup.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of neurons.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of the NeuronGroup.</span>
+<span class="sd">    namespace : dict, optional</span>
+<span class="sd">        New namespace of the NeuronGroup.</span>
+<span class="sd">    equations : str, optional</span>
+<span class="sd">        New set of equations for the NeuronGroup.</span>
+<span class="sd">    events : dict, optional</span>
+<span class="sd">        Events of the NeuronGroup.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    Make sure all variables are accounted for if you change the namespace or</span>
+<span class="sd">    the equations!</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">dv/dt = (ge * (Ee-v_rest) + El - v) / taum : volt</span>
+<span class="s2">dge/dt = -ge / taue : 1</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;taum&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span>
+        <span class="s1">&#39;Ee&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;v_trigger&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">53</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;v_threshold&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">54</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;v_rest&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">60</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;El&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">74</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;taue&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="o">*</span><span class="n">ms</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;neurongroup&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="p">{},</span> <span class="n">equations</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">events</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">if</span> <span class="n">namespace</span> <span class="o">!=</span> <span class="p">{}:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="n">namespace</span>
+
+        <span class="k">if</span> <span class="n">equations</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">equations</span> <span class="o">=</span> <span class="n">equations</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">equations</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="s1">&#39;v &gt;= v_threshold&#39;</span><span class="p">,</span>
+            <span class="n">reset</span><span class="o">=</span><span class="s1">&#39;v = v_rest&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">namespace</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">[</span><span class="s1">&#39;v_rest&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ge</span> <span class="o">=</span> <span class="mf">1.3</span></div>
+
+
+<div class="viewcode-block" id="HodgkinHuxelyNeuronGroup"><a class="viewcode-back" href="../../../models/neurons/HodgkinHuxelyNeuronGroup.html#brawn.models.neurons.HodgkinHuxelyNeuronGroup">[docs]</a><span class="k">class</span> <span class="nc">HodgkinHuxelyNeuronGroup</span><span class="p">(</span><span class="n">Prepable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hodgkin-Huxely model NeuronGroup.</span>
+
+<span class="sd">    Inspired by https://pdfs.semanticscholar.org/cfbf/73be5eb767fd086f43a28b472cf00b70efa8.pdf</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of neurons.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of the NeuronGroup.</span>
+<span class="sd">    namespace : dict, optional</span>
+<span class="sd">        New namespace of the NeuronGroup.</span>
+<span class="sd">    equations : str, optional</span>
+<span class="sd">        New set of equations for the NeuronGroup.</span>
+<span class="sd">    events : dict, optional</span>
+<span class="sd">        Events of the NeuronGroup.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    Make sure all variables are accounted for if you change the namespace or</span>
+<span class="sd">    the equations!</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa : E501</span>
+    <span class="n">equations</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">dv/dt = (I_m - g_K * n**4 * (v - V_K) - g_Na * m**3 * h * (v - V_Na) - g_l * (v - V_l))/ C_m : volt</span>
+
+<span class="s2">dI_m/dt = -I_m /(30*ms) : amp/metre**2</span>
+<span class="s2">dn/dt = alphan * (1 - n) - betan * n : 1</span>
+<span class="s2">alphan = 0.01/mV * (10*mV - v) / (exp((10*mV - v) / (10*mV)) - 1)/ms : Hz</span>
+<span class="s2">betan = 0.125 * exp(-v / (80*mV))/ms : Hz</span>
+
+<span class="s2">dm/dt = alpham * (1-m) - betam * m : 1</span>
+<span class="s2">alpham = 0.1/mV * (25*mV - v) / (exp((25*mV - v) / (10*mV)) - 1)  /ms : Hz</span>
+<span class="s2">betam = 4 * exp(-v / (18*mV))/ms : Hz</span>
+
+<span class="s2">dh/dt = alphah * (1 - h) - betah * h : 1</span>
+<span class="s2">alphah = 0.07 * exp( -v / (20*mV))/ms : Hz</span>
+<span class="s2">betah = 1 / (exp((30*mV - v) / (10*mV)) + 1)/ms : Hz</span>
+<span class="s2">&quot;&quot;&quot;</span>  <span class="c1"># noqa : E501</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;C_m&#39;</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">uF</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>         <span class="c1"># Membrane capacitance</span>
+
+        <span class="s1">&#39;g_K&#39;</span><span class="p">:</span> <span class="mi">36</span> <span class="o">*</span> <span class="n">msiemens</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>    <span class="c1"># Maximum K channels conductance</span>
+        <span class="s1">&#39;V_K&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">12</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>                   <span class="c1"># K channels threshold voltage</span>
+
+        <span class="s1">&#39;g_Na&#39;</span><span class="p">:</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">msiemens</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># Maximum Na channels conductance</span>
+        <span class="s1">&#39;V_Na&#39;</span><span class="p">:</span> <span class="mi">115</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>                <span class="c1"># Na channels threshold voltage</span>
+
+        <span class="s1">&#39;g_l&#39;</span><span class="p">:</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">msiemens</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>   <span class="c1"># Maximum leak channels conductance</span>
+        <span class="s1">&#39;V_l&#39;</span><span class="p">:</span> <span class="mf">10.613</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>              <span class="c1"># Leak channels threshold voltage</span>
+
+        <span class="s1">&#39;v_rest&#39;</span><span class="p">:</span> <span class="n">v_rest</span><span class="p">,</span>                <span class="c1"># Resting membrane voltage</span>
+        <span class="s1">&#39;v_threshold&#39;</span><span class="p">:</span> <span class="n">v_threshold</span><span class="p">,</span>      <span class="c1"># Voltage required to trigger spike</span>
+        <span class="s1">&#39;v_trigger&#39;</span><span class="p">:</span> <span class="n">v_trigger</span>           <span class="c1"># Voltage triggering spike</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;neurongroup&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="p">{},</span> <span class="n">equations</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">events</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new HodgkinHuxleyNeuronGroup.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            n (int): Number of neurons.</span>
+<span class="sd">            name (str, optional): Defaults to &#39;neurongroup&#39;. Name.</span>
+<span class="sd">            events (dict, optional): Defaults to {}. Adds specified events to</span>
+<span class="sd">                the NeuronGroup.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">namespace</span> <span class="o">!=</span> <span class="p">{}:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="n">namespace</span>
+
+        <span class="k">if</span> <span class="n">equations</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">equations</span> <span class="o">=</span> <span class="n">equations</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">equations</span><span class="p">,</span>
+                         <span class="n">threshold</span><span class="o">=</span><span class="s1">&#39;v &gt;= v_threshold&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                         <span class="n">namespace</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">,</span> <span class="n">refractory</span><span class="o">=</span><span class="mi">25</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span>
+                         <span class="n">method</span><span class="o">=</span><span class="s1">&#39;exponential_euler&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="s1">&#39;v = v_rest&#39;</span><span class="p">,</span>
+                         <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">)</span>
+
+        <span class="c1"># Reducing initial voltage peak to the order of e-6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">0.59599414</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="mf">0.3177324</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="mf">0.05295509</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">I_m</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">amp</span><span class="o">/</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span></div>
+
+
+<span class="k">class</span> <span class="nc">DocHodgkinHuxelyNeuronGroup</span><span class="p">(</span><span class="n">SpatialNeuron</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages a Spatial Hodgkin-Huxely model NeuronGroup.</span>
+
+<span class="sd">    Inspired by https://brian2.readthedocs.io/en/stable/examples/compartmental.hh_with_spikes.html</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        morpho: Neuron&#39;s morphology.</span>
+<span class="sd">        namespace: Namespace of the variables defining the Neuron.</span>
+<span class="sd">        eqs: Equations defining the evolution of the Neuron.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        Inherits ModelSpatialNeuron.</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa</span>
+
+    <span class="n">morpho</span> <span class="o">=</span> <span class="n">Cylinder</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="n">diameter</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="mi">238</span><span class="o">*</span><span class="n">um</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;axon&#39;</span><span class="p">)</span>
+
+    <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;El&#39;</span><span class="p">:</span> <span class="mf">10.613</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;ENa&#39;</span><span class="p">:</span> <span class="mi">115</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;EK&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">12</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span>
+        <span class="s1">&#39;gl&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">msiemens</span><span class="o">/</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;gNa0&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="o">*</span><span class="n">msiemens</span><span class="o">/</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;gK&#39;</span><span class="p">:</span> <span class="mi">36</span><span class="o">*</span><span class="n">msiemens</span><span class="o">/</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Typical equations</span>
+    <span class="n">eqs</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        # The same equations for the whole neuron, but possibly different parameter values</span>
+<span class="s2">        # distributed transmembrane current</span>
+<span class="s2">        Im = gl * (El-v) + gNa * m**3 * h * (ENa-v) + gK * n**4 * (EK-v) : amp/meter**2</span>
+<span class="s2">        I : amp (point current) # applied current</span>
+<span class="s2">        dm/dt = alpham * (1-m) - betam * m : 1</span>
+<span class="s2">        dn/dt = alphan * (1-n) - betan * n : 1</span>
+<span class="s2">        dh/dt = alphah * (1-h) - betah * h : 1</span>
+<span class="s2">        alpham = (0.1/mV) * (-v+25*mV) / (exp((-v+25*mV) / (10*mV)) - 1)/ms : Hz</span>
+<span class="s2">        betam = 4 * exp(-v/(18*mV))/ms : Hz</span>
+<span class="s2">        alphah = 0.07 * exp(-v/(20*mV))/ms : Hz</span>
+<span class="s2">        betah = 1/(exp((-v+30*mV) / (10*mV)) + 1)/ms : Hz</span>
+<span class="s2">        alphan = (0.01/mV) * (-v+10*mV) / (exp((-v+10*mV) / (10*mV)) - 1)/ms : Hz</span>
+<span class="s2">        betan = 0.125*exp(-v/(80*mV))/ms : Hz</span>
+<span class="s2">        gNa : siemens/meter**2</span>
+<span class="s2">    &quot;&quot;&quot;</span>  <span class="c1"># noqa : E501</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new DocHodgkinHuxelyNeuronGroup.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">morphology</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">morpho</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">,</span>
+                         <span class="n">method</span><span class="o">=</span><span class="s2">&quot;exponential_euler&quot;</span><span class="p">,</span>
+                         <span class="n">refractory</span><span class="o">=</span><span class="s2">&quot;m &gt; 0.4&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="s2">&quot;m &gt; 0.5&quot;</span><span class="p">,</span>
+                         <span class="n">Cm</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">uF</span><span class="o">/</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">Ri</span><span class="o">=</span><span class="mf">35.4</span><span class="o">*</span><span class="n">ohm</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span>
+                         <span class="n">namespace</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">amp</span>  <span class="c1"># noqa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gNa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">[</span><span class="s1">&#39;gNa0&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SpikingNeuronGroup"><a class="viewcode-back" href="../../../models/neurons/SpikingNeuronGroup.html#brawn.models.neurons.SpikingNeuronGroup">[docs]</a><span class="k">class</span> <span class="nc">SpikingNeuronGroup</span><span class="p">(</span><span class="n">SpikeGeneratorGroup</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allows the use of SpikeGeneratorGroup with default spike values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Number of neurons.</span>
+<span class="sd">    indices : list of int</span>
+<span class="sd">        Neuron IDs to spike.</span>
+<span class="sd">    times : list of `brian2.Quantity`</span>
+<span class="sd">        Times of spiking neurons.</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        Name of the NeuronGroup.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    --------</span>
+<span class="sd">    `Documentation of SpikeGeneratorGroup &lt;https://brian2.readthedocs.io/en/stable/reference/brian2.input.spikegeneratorgroup.SpikeGeneratorGroup.html#brian2.input.spikegeneratorgroup.SpikeGeneratorGroup&gt;`_.</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="c1"># noqa</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[],</span> <span class="n">times</span><span class="o">=</span><span class="p">[]</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span>
+                 <span class="n">period</span><span class="o">=</span><span class="mf">1e100</span><span class="o">*</span><span class="n">second</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;neurongroup&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="n">times</span><span class="p">,</span>
+                         <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do not run models directly!&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Kevin Cuallado-Keltsch
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
